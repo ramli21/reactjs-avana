@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import Sidebar from './Components/Sidebar';
 import Home from './Pages/Home';
 
