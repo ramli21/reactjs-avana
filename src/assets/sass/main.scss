@@ -1,87 +1,12 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./_variables";
 
-html, body {
-  font-size: 16px;
-}
+// components
+@import "./menu-sidebar";
+@import "./main-page";
 
-#main-site {
+html,
+body {
   background-color: $grey;
-}
-
-#sidebar {
-  width: 20vw;
-  display: inline-block;
-  position: relative;
-  height: 100vh;
-  vertical-align: top;
-  padding: 40px 0px 20px;
-  background-color: $dark-grey;
-
-  .logo {
-    margin-bottom: 80px;
-    text-align: center;
-
-    > img {
-      width: 50%;
-    }
-  }
-
-  .navigation {
-    margin-top: 50px;
-
-    // custom list-group for sidebar
-    .list-group {
-      border-radius: 0px;
-
-      .list-group-item {
-        font-size: 1rem;
-        color: darken($white, 20%);
-
-        background-color: $dark-grey;
-        border: none;
-        padding: 15px 30px;
-
-        transition: .3s all;
-
-        &:hover,
-        &.active {
-          color: $white;
-          background-color: $grey;
-        }
-
-        &.active {
-          border-right: 3px solid $yellow;
-        }
-
-        &.disabled {
-          color: darken($white, 50%);
-          border-bottom: solid 1px $grey;
-        }
-      }
-
-    }
-  }
-}
-
-#main-page {
-  width: 80vw;
-  padding: 40px 20px 20px;
-  display: inline-block;
-
-  .dummy-content {
-    background-color: $silver;
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 50px;
-
-    &.square {
-      min-height: 150px;
-    }
-
-    &.h-lg {
-      min-height: 300px;
-    }
-  }
+  font-size: 16px;
 }

@@ -1,16 +1,33 @@
+import React from 'react';
+import { connect } from "react-redux";
+
 import Sidebar from './Components/Sidebar';
 import Home from './Pages/Home';
 
-function App() {
-  return (
-    <div id="main-site">
-      <Sidebar />
+import { getMenuToggle } from './redux/selectors';
 
-      <div id="main-page">
-        <Home />
-      </div>
-    </div>
-  );
+class App extends React.Component {
+	constructor(props) {
+		super(props)
+	}
+
+	render() {
+		return (
+			<div id="main-site">
+				<Sidebar />
+
+				<div id="main-page" className={`${this.props.is_hidden ? "menu-hidden" : ""}`}>
+					<Home />
+				</div>
+			</div>
+		);
+	}
 }
 
-export default App;
+const mapStateToProps = state => {
+	const is_hidden = getMenuToggle(state);
+
+	return { is_hidden }
+}
+
+export default connect(mapStateToProps)(App);

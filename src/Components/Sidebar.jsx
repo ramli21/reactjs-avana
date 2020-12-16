@@ -2,9 +2,25 @@ import React from 'react';
 import avatar from '../assets/images/avatar-2.png';
 import { ListGroup } from 'react-bootstrap';
 
-const Sidebar = () => {
+import { connect } from "react-redux";
+import { getMenuItem, getMenuToggle } from '../redux/selectors';
+import { toggleSidebar } from '../redux/actions';
+
+const MenuItem = ({ idx, item, path }) => {
   return (
-    <div id="sidebar">
+    <ListGroup.Item active={idx === 0} action href={path} disabled={!item.ative} >{item.id}</ListGroup.Item>
+  )
+}
+
+const Sidebar = props => {
+  function toggleMenu(e) {
+    e.preventDefault();
+    
+    props.toggleSidebar()
+  }
+
+  return (
+    <div id="sidebar" className={`${props.is_hidden ? "hide":""}`}>
       <div className="logo">
         <img src="https://www.avana.id/assets/images/logo.webp" alt="avana-logo" />
       </div>
@@ -14,17 +30,35 @@ const Sidebar = () => {
       </div>
 
       <div className="navigation">
-        <ListGroup defaultActiveKey="/">
-          <ListGroup.Item action href="/">Cras justo odio</ListGroup.Item>
-          <ListGroup.Item action href="#Dashboard1">Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item action href="#Dashboard2">Morbi leo risus</ListGroup.Item>
-          <ListGroup.Item action href="#Dashboard3">Porta ac consectetur ac</ListGroup.Item>
-          <ListGroup.Item action href="#Dashboard4" disabled>Vestibulum at eros</ListGroup.Item>
-          <ListGroup.Item action href="#Dashboard4" disabled>Vestibulum at eros</ListGroup.Item>
+        <ListGroup>
+          {props.menus && props.menus.length
+            ? props.menus.map((item, index) => {
+              return <MenuItem key={`menu-${index}`} item={item} path="/" idx={index} />
+            })
+            : ""
+
+          }
         </ListGroup>
       </div>
+
+      {props.is_hidden
+        ? <button className="toggle" onClick={toggleMenu}>&gt;</button>
+        : <button className="toggle" onClick={toggleMenu}>&lt;</button>
+
+      }
     </div>
   )
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+  const menus = getMenuItem(state);
+  const is_hidden = getMenuToggle(state);
+
+  return { menus: menus, is_hidden: is_hidden }
+}
+
+const mapDispatchToProps = {
+  toggleSidebar
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
