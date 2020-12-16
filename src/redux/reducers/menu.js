@@ -9,21 +9,17 @@ const initialState = {
 	is_hidden: false
 };
 
-export default function (state = initialState, action) {
+export default function Menu(state = initialState, action) {
 	switch (action.type) {
 		case "TOGGLE_MENU":
 			console.log("Action to Hide Menu", state);
-			return state
-			
-			break;
+			return state;
 
 		case "TOGGLE_SIDEBAR":
 			return {
 				...state,
 				is_hidden: !state.is_hidden
-			}
-
-			break;
+			};
 
 		default:
 			return state;

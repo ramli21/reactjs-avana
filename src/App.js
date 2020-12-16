@@ -7,10 +7,6 @@ import Home from './Pages/Home';
 import { getMenuToggle } from './redux/selectors';
 
 class App extends React.Component {
-	constructor(props) {
-		super(props)
-	}
-
 	render() {
 		return (
 			<div id="main-site">
