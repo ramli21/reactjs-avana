@@ -4,23 +4,46 @@ import { ListGroup } from 'react-bootstrap';
 
 import { connect } from "react-redux";
 import { getMenuItem, getMenuToggle } from '../redux/selectors';
-import { toggleSidebar } from '../redux/actions';
-
-const MenuItem = ({ idx, item, path }) => {
-  return (
-    <ListGroup.Item active={idx === 0} action href={path} disabled={!item.ative} >{item.id}</ListGroup.Item>
-  )
-}
+import { toggleSidebar, toggleDropdown } from '../redux/actions';
 
 const Sidebar = props => {
   function toggleMenu(e) {
     e.preventDefault();
-    
+
     props.toggleSidebar()
   }
 
+  const MenuItem = ({ idx, item, path }) => {
+    return (
+      <ListGroup.Item active={idx === 0} action href={path} disabled={!item.isAllowed} >
+        <span className="label">{item.id}</span>
+      </ListGroup.Item>
+    )
+  }
+
+  const MenuChilds = ({ parent }) => {
+    const showDropdown = () => {
+      props.toggleDropdown(parent)
+    }
+  
+    return (
+      <ListGroup.Item className={`dropdown ${parent.isAllowed ? "show":""}`} onClick={showDropdown}>
+        <span className="label parent">{parent.id}</span>
+  
+        <ListGroup>
+          {parent.childs && parent.childs.length
+            ? parent.childs.map((item, index) => {
+              return <MenuItem key={`menu-${index}`} item={item} path="/" idx={index + 1} />
+            })
+            : ""
+          }
+        </ListGroup>
+      </ListGroup.Item>
+    )
+  }
+
   return (
-    <div id="sidebar" className={`${props.is_hidden ? "hide":""}`}>
+    <div id="sidebar" className={`${props.is_hidden ? "hide" : ""}`}>
       <div className="logo">
         <img src="https://www.avana.id/assets/images/logo.webp" alt="avana-logo" />
       </div>
@@ -33,10 +56,15 @@ const Sidebar = props => {
         <ListGroup>
           {props.menus && props.menus.length
             ? props.menus.map((item, index) => {
-              return <MenuItem key={`menu-${index}`} item={item} path="/" idx={index} />
+              if(item.isShowed) {
+                if (item.childs) {
+                  return <MenuChilds key={item.id} parent={item} />
+                } else {
+                  return <MenuItem key={`menu-${index}`} item={item} path="/" idx={index} />
+                }
+              }
             })
             : ""
-
           }
         </ListGroup>
       </div>
@@ -53,12 +81,13 @@ const Sidebar = props => {
 const mapStateToProps = state => {
   const menus = getMenuItem(state);
   const is_hidden = getMenuToggle(state);
-
+  
   return { menus: menus, is_hidden: is_hidden }
 }
 
 const mapDispatchToProps = {
-  toggleSidebar
+  toggleSidebar,
+  toggleDropdown
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

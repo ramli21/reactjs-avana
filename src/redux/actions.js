@@ -1,4 +1,4 @@
-export const toggleMenu = content => ({
+export const toggleDropdown = content => ({
 	type: 'TOGGLE_MENU',
 	payload: {
 		content

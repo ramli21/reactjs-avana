@@ -1,10 +1,41 @@
+const menus = require('../../utils/menus.json');
 
 const initialState = {
 	items: [
-		{ id: "Dasboard", show: true, ative: true },
-		{ id: "Menu 2", show: true, ative: true },
-		{ id: "Menu 3", show: true, ative: true },
-		{ id: "Menu 3", show: true, ative: false }
+		{
+			"id": "dashboard",
+			"isShowed": true,
+			"isAllowed": true
+		},
+		{
+			"id": "hq",
+			"isShowed": false,
+			"isAllowed": false,
+			"childs": [
+				{
+					"id": "hq_stockist",
+					"isShowed": false,
+					"isAllowed": false
+				},
+				{
+					"id": "hq_dropship_affiliate",
+					"isShowed": false,
+					"isAllowed": false
+				}
+			]
+		},
+		{
+			"id": "agent",
+			"isShowed": true,
+			"isAllowed": false,
+			"childs": [
+				{
+					"id": "my_purchase",
+					"isShowed": true,
+					"isAllowed": true
+				}
+			]
+		},
 	],
 	is_hidden: false
 };
@@ -12,8 +43,19 @@ const initialState = {
 export default function Menu(state = initialState, action) {
 	switch (action.type) {
 		case "TOGGLE_MENU":
-			console.log("Action to Hide Menu", state);
-			return state;
+			const { id, isAllowed } = action.payload.content;
+			const idx = state.items.findIndex((obj => obj.id === id))
+			console.log("this is the result ", state)
+			
+			state.items[idx] = {
+				...state.items[idx],
+				isAllowed: !isAllowed
+			};
+
+
+			return {
+				...state
+			};
 
 		case "TOGGLE_SIDEBAR":
 			return {
