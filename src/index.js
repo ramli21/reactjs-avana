@@ -8,10 +8,22 @@ import store from './redux/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+class Home extends React.Component{
+  componentDidMount(){
+    document.title = "Avana Assignment - Ahmad Ramli"
+  }
+
+  render(){
+    return(
+      <Provider  store={store}>
+        <App />
+      </Provider>
+    )
+  }
+}
+
 ReactDOM.render(
-  <Provider  store={store}>
-    <App />
-  </Provider>,
+  <Home />,
   document.getElementById('root')
 );
 
