@@ -27,6 +27,8 @@
 
   .navigation {
     margin-top: 50px;
+    max-height: 68%;
+    overflow: scroll;
 
     // custom list-group for sidebar
     .list-group {
@@ -36,13 +38,21 @@
         background-color: $dark-grey;
         border: none;
         padding: 0;
-        transition: 0.3s all;
+        height: 54px;
+        transition: all 0.3s;
 
         .label {
           display: block;
           font-size: 1rem;
           color: darken($white, 20%);
           padding: 15px 30px;
+          text-transform: capitalize;
+        }
+
+        &.child {
+          .label {
+            padding-left: 40px;
+          }
         }
 
         &:hover,
@@ -66,28 +76,29 @@
       }
 
       .dropdown {
-        height: 54px;
         overflow: hidden;
-        transition: all 0.3s;
 
         &.show {
           height: auto;
-          overflow: auto;
         }
 
-        > .label::after {
-          display: inline-block;
-          width: 0;
-          height: 0;
-          border-left: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-top: 8px solid rgba(white, .5);
-          position: absolute;
-          right: 30px;
-          top: 23px;
-          vertical-align: middle;
-          margin-left: 2px;
-          content:'';
+        > .label {
+          padding-left: 30px;
+
+          &::after {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid rgba(white, 0.5);
+            position: absolute;
+            right: 30px;
+            top: 23px;
+            vertical-align: middle;
+            margin-left: 2px;
+            content: "";
+          }
         }
 
         > .list-group {
@@ -102,12 +113,16 @@
 
             &.disabled {
               background-color: $grey;
-              
+
               .label {
                 color: darken($white, 50%);
               }
             }
           }
+        }
+
+        .dropdown > .label {
+          padding-left: 40px;
         }
       }
     }
